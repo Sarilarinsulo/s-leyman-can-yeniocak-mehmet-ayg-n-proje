@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/adminlayout.cshtml";
+    if (Session["AdminID"] == null)
+    {
+        Response.Redirect("~/Admin/AdminLogin");
+    }
+}
+
+<h2>Admin Anasayfa</h2>
+

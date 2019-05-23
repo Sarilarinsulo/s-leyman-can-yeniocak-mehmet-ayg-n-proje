@@ -1,0 +1,7 @@
+﻿@model IEnumerable<ciceksepeti.Models.kategoriler>
+
+
+@foreach (var kategori in Model)
+{
+<li><a href="/Home/KategoriUrunListe?kategoriID=@kategori.kategori_id">@kategori.kategori_ad</a></li>
+}

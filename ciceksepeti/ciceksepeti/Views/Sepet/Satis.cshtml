@@ -1,0 +1,57 @@
+﻿@model ciceksepeti.Models.Satis
+
+@{
+    ViewBag.Title = "Satis";
+    Layout = "~/Views/Shared/SiteLayout.cshtml";
+}
+
+<h2>Satın Al</h2>
+
+@using (Html.BeginForm()) 
+{
+   
+    
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+
+        <div class="col-md-10">
+            Adres
+            @Html.EditorFor(model => model.satis_adres, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.satis_adres, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            Kart Üzeri Ad-Soyad
+            @Html.EditorFor(model => model.kart_adsoyad, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.kart_adsoyad, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            Kart Hesap Numarası
+            @Html.EditorFor(model => model.kart_hesapno, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.kart_hesapno, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            Kart CVC Numarası
+            @Html.EditorFor(model => model.kart_CVCkod, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.kart_CVCkod, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Satın Al" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+

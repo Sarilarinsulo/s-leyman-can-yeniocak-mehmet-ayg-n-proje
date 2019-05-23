@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ciceksepetiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="admin">
+    <Key>
+      <PropertyRef Name="admin_id" />
+    </Key>
+    <Property Name="admin_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="admin_ad" Type="nvarchar" MaxLength="50" />
+    <Property Name="admin_soyad" Type="nvarchar" MaxLength="50" />
+    <Property Name="admin_kullaniciad" Type="nvarchar" MaxLength="50" />
+    <Property Name="admin_sifre" Type="nvarchar" MaxLength="16" />
+  </EntityType>
+  <EntityType Name="kategoriler">
+    <Key>
+      <PropertyRef Name="kategori_id" />
+    </Key>
+    <Property Name="kategori_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="kategori_ad" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="kullanici">
+    <Key>
+      <PropertyRef Name="kullanici_id" />
+    </Key>
+    <Property Name="kullanici_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="kullanici_ad" Type="nvarchar" MaxLength="50" />
+    <Property Name="kullanici_soyad" Type="nvarchar" MaxLength="50" />
+    <Property Name="kullanici_email" Type="nvarchar" MaxLength="50" />
+    <Property Name="kullanici_sifre" Type="nvarchar" MaxLength="16" Nullable="false" />
+    <Property Name="kullanici_adres" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="resimler">
+    <Key>
+      <PropertyRef Name="resim_id" />
+    </Key>
+    <Property Name="resim_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="urun_id" Type="int" />
+    <Property Name="resim_yol" Type="nvarchar" MaxLength="500" />
+    <Property Name="resim_bit" Type="bit" />
+  </EntityType>
+  <EntityType Name="Satis">
+    <Key>
+      <PropertyRef Name="satis_id" />
+    </Key>
+    <Property Name="satis_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="satis_adres" Type="nvarchar" MaxLength="500" />
+    <Property Name="kullanici_id" Type="int" />
+    <Property Name="kart_hesapno" Type="bigint" />
+    <Property Name="kart_CVCkod" Type="int" />
+    <Property Name="kart_adsoyad" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="sepet">
+    <Key>
+      <PropertyRef Name="sepet_id" />
+    </Key>
+    <Property Name="sepet_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="kullanıcı_id" Type="int" />
+    <Property Name="satis_id" Type="int" />
+  </EntityType>
+  <EntityType Name="sepeturunliste">
+    <Key>
+      <PropertyRef Name="sul_id" />
+    </Key>
+    <Property Name="sul_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="sepet_id" Type="int" />
+    <Property Name="urun_id" Type="int" />
+    <Property Name="adet" Type="int" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="urunler">
+    <Key>
+      <PropertyRef Name="urun_id" />
+    </Key>
+    <Property Name="urun_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="urun_ad" Type="nvarchar" MaxLength="50" />
+    <Property Name="urun_fiyat" Type="int" />
+    <Property Name="urun_stok" Type="int" />
+    <Property Name="kategori_id" Type="int" />
+  </EntityType>
+  <Association Name="FK_resimler_urunler">
+    <End Role="urunler" Type="Self.urunler" Multiplicity="0..1" />
+    <End Role="resimler" Type="Self.resimler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="urunler">
+        <PropertyRef Name="urun_id" />
+      </Principal>
+      <Dependent Role="resimler">
+        <PropertyRef Name="urun_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_sepet_kullanici">
+    <End Role="kullanici" Type="Self.kullanici" Multiplicity="0..1" />
+    <End Role="sepet" Type="Self.sepet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="kullanici">
+        <PropertyRef Name="kullanici_id" />
+      </Principal>
+      <Dependent Role="sepet">
+        <PropertyRef Name="kullanıcı_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_sepet_Satis">
+    <End Role="Satis" Type="Self.Satis" Multiplicity="0..1" />
+    <End Role="sepet" Type="Self.sepet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Satis">
+        <PropertyRef Name="satis_id" />
+      </Principal>
+      <Dependent Role="sepet">
+        <PropertyRef Name="satis_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_sepeturunliste_sepet">
+    <End Role="sepet" Type="Self.sepet" Multiplicity="0..1" />
+    <End Role="sepeturunliste" Type="Self.sepeturunliste" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="sepet">
+        <PropertyRef Name="sepet_id" />
+      </Principal>
+      <Dependent Role="sepeturunliste">
+        <PropertyRef Name="sepet_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_sepeturunliste_urunler">
+    <End Role="urunler" Type="Self.urunler" Multiplicity="0..1" />
+    <End Role="sepeturunliste" Type="Self.sepeturunliste" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="urunler">
+        <PropertyRef Name="urun_id" />
+      </Principal>
+      <Dependent Role="sepeturunliste">
+        <PropertyRef Name="urun_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_urunler_kategoriler">
+    <End Role="kategoriler" Type="Self.kategoriler" Multiplicity="0..1" />
+    <End Role="urunler" Type="Self.urunler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="kategoriler">
+        <PropertyRef Name="kategori_id" />
+      </Principal>
+      <Dependent Role="urunler">
+        <PropertyRef Name="kategori_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ciceksepetiModelStoreContainer">
+    <EntitySet Name="admin" EntityType="Self.admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="kategoriler" EntityType="Self.kategoriler" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="kullanici" EntityType="Self.kullanici" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="resimler" EntityType="Self.resimler" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Satis" EntityType="Self.Satis" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sepet" EntityType="Self.sepet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sepeturunliste" EntityType="Self.sepeturunliste" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="urunler" EntityType="Self.urunler" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_resimler_urunler" Association="Self.FK_resimler_urunler">
+      <End Role="urunler" EntitySet="urunler" />
+      <End Role="resimler" EntitySet="resimler" />
+    </AssociationSet>
+    <AssociationSet Name="FK_sepet_kullanici" Association="Self.FK_sepet_kullanici">
+      <End Role="kullanici" EntitySet="kullanici" />
+      <End Role="sepet" EntitySet="sepet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_sepet_Satis" Association="Self.FK_sepet_Satis">
+      <End Role="Satis" EntitySet="Satis" />
+      <End Role="sepet" EntitySet="sepet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_sepeturunliste_sepet" Association="Self.FK_sepeturunliste_sepet">
+      <End Role="sepet" EntitySet="sepet" />
+      <End Role="sepeturunliste" EntitySet="sepeturunliste" />
+    </AssociationSet>
+    <AssociationSet Name="FK_sepeturunliste_urunler" Association="Self.FK_sepeturunliste_urunler">
+      <End Role="urunler" EntitySet="urunler" />
+      <End Role="sepeturunliste" EntitySet="sepeturunliste" />
+    </AssociationSet>
+    <AssociationSet Name="FK_urunler_kategoriler" Association="Self.FK_urunler_kategoriler">
+      <End Role="kategoriler" EntitySet="kategoriler" />
+      <End Role="urunler" EntitySet="urunler" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

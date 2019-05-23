@@ -1,0 +1,37 @@
+﻿@model IEnumerable<ciceksepeti.Models.urunler>
+
+@{
+    ViewBag.Title = "KategoriUrunListe";
+    Layout = "~/Views/Shared/SiteLayout.cshtml";
+}
+
+<div class="f-widget featpro">
+    <div class="container">
+        <div class="title-widget-bg">
+            <div class="title-widget">@Model.FirstOrDefault().kategoriler.kategori_ad</div>
+            <div class="carousel-nav">
+                <a class="prev"></a>
+                <a class="next"></a>
+            </div>
+        </div>
+        <div id="product-carousel" class="owl-carousel owl-theme">
+            @foreach (var cicek in Model)
+            {
+                <div class="item">
+                    <div class="productwrap">
+                        <div class="pr-img">
+                            <div class="hot"></div>
+                            @if (cicek.resimler != null)
+                            {
+                                <a href="/Home/UrunDetay?urunID=@cicek.urun_id" style="width:280px;height:220px;"><img src="@cicek.resimler.FirstOrDefault(x=>x.resim_bit==false).resim_yol" alt="" class="img-responsive"></a>
+                            }
+                            <div class="pricetag blue"><div class="inner"><span>@cicek.urun_fiyat</span><span> TL</span></div></div>
+                        </div>
+                        <span class="smalltitle"><a href="product.htm">@cicek.urun_ad</a></span>
+                        <span class="smalldesc">Stok:@cicek.urun_stok</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

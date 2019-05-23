@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ciceksepetiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="admin">
+    <Key>
+      <PropertyRef Name="admin_id" />
+    </Key>
+    <Property Name="admin_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="admin_ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="admin_soyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="admin_kullaniciad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="admin_sifre" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="kategoriler">
+    <Key>
+      <PropertyRef Name="kategori_id" />
+    </Key>
+    <Property Name="kategori_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="kategori_ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="urunler" Relationship="Self.FK_urunler_kategoriler" FromRole="kategoriler" ToRole="urunler" />
+  </EntityType>
+  <EntityType Name="kullanici">
+    <Key>
+      <PropertyRef Name="kullanici_id" />
+    </Key>
+    <Property Name="kullanici_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="kullanici_ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="kullanici_soyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="kullanici_email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="kullanici_sifre" Type="String" MaxLength="16" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="kullanici_adres" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="sepet" Relationship="ciceksepetiModel.FK_sepet_kullanici" FromRole="kullanici" ToRole="sepet" />
+  </EntityType>
+  <EntityType Name="resimler">
+    <Key>
+      <PropertyRef Name="resim_id" />
+    </Key>
+    <Property Name="resim_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="urun_id" Type="Int32" />
+    <Property Name="resim_yol" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="urunler" Relationship="Self.FK_resimler_urunler" FromRole="resimler" ToRole="urunler" />
+    <Property Name="resim_bit" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="urunler">
+    <Key>
+      <PropertyRef Name="urun_id" />
+    </Key>
+    <Property Name="urun_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="urun_ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="urun_fiyat" Type="Int32" />
+    <Property Name="urun_stok" Type="Int32" />
+    <Property Name="kategori_id" Type="Int32" />
+    <NavigationProperty Name="kategoriler" Relationship="Self.FK_urunler_kategoriler" FromRole="urunler" ToRole="kategoriler" />
+    <NavigationProperty Name="resimler" Relationship="Self.FK_resimler_urunler" FromRole="urunler" ToRole="resimler" />
+    <NavigationProperty Name="sepeturunliste" Relationship="ciceksepetiModel.FK_sepeturunliste_urunler" FromRole="urunler" ToRole="sepeturunliste" />
+  </EntityType>
+  <Association Name="FK_urunler_kategoriler">
+    <End Role="kategoriler" Type="Self.kategoriler" Multiplicity="0..1" />
+    <End Role="urunler" Type="Self.urunler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="kategoriler">
+        <PropertyRef Name="kategori_id" />
+      </Principal>
+      <Dependent Role="urunler">
+        <PropertyRef Name="kategori_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_resimler_urunler">
+    <End Role="urunler" Type="Self.urunler" Multiplicity="0..1" />
+    <End Role="resimler" Type="Self.resimler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="urunler">
+        <PropertyRef Name="urun_id" />
+      </Principal>
+      <Dependent Role="resimler">
+        <PropertyRef Name="urun_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ciceksepetiEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="admin" EntityType="Self.admin" />
+    <EntitySet Name="kategoriler" EntityType="Self.kategoriler" />
+    <EntitySet Name="kullanici" EntityType="Self.kullanici" />
+    <EntitySet Name="resimler" EntityType="Self.resimler" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="urunler" EntityType="Self.urunler" />
+    <AssociationSet Name="FK_urunler_kategoriler" Association="Self.FK_urunler_kategoriler">
+      <End Role="kategoriler" EntitySet="kategoriler" />
+      <End Role="urunler" EntitySet="urunler" />
+    </AssociationSet>
+    <AssociationSet Name="FK_resimler_urunler" Association="Self.FK_resimler_urunler">
+      <End Role="urunler" EntitySet="urunler" />
+      <End Role="resimler" EntitySet="resimler" />
+    </AssociationSet>
+    <EntitySet Name="sepet" EntityType="ciceksepetiModel.sepet" />
+    <AssociationSet Name="FK_sepet_kullanici" Association="ciceksepetiModel.FK_sepet_kullanici">
+      <End Role="kullanici" EntitySet="kullanici" />
+      <End Role="sepet" EntitySet="sepet" />
+    </AssociationSet>
+    <EntitySet Name="sepeturunliste" EntityType="ciceksepetiModel.sepeturunliste" />
+    <AssociationSet Name="FK_sepeturunliste_sepet" Association="ciceksepetiModel.FK_sepeturunliste_sepet">
+      <End Role="sepet" EntitySet="sepet" />
+      <End Role="sepeturunliste" EntitySet="sepeturunliste" />
+    </AssociationSet>
+    <AssociationSet Name="FK_sepeturunliste_urunler" Association="ciceksepetiModel.FK_sepeturunliste_urunler">
+      <End Role="urunler" EntitySet="urunler" />
+      <End Role="sepeturunliste" EntitySet="sepeturunliste" />
+    </AssociationSet>
+    <EntitySet Name="Satis" EntityType="ciceksepetiModel.Satis" />
+    <AssociationSet Name="FK_sepet_Satis" Association="ciceksepetiModel.FK_sepet_Satis">
+      <End Role="Satis" EntitySet="Satis" />
+      <End Role="sepet" EntitySet="sepet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="sepet">
+    <Key>
+      <PropertyRef Name="sepet_id" />
+    </Key>
+    <Property Name="sepet_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="kullanıcı_id" Type="Int32" />
+    <NavigationProperty Name="kullanici" Relationship="ciceksepetiModel.FK_sepet_kullanici" FromRole="sepet" ToRole="kullanici" />
+    <NavigationProperty Name="sepeturunliste" Relationship="ciceksepetiModel.FK_sepeturunliste_sepet" FromRole="sepet" ToRole="sepeturunliste" />
+    <Property Name="satis_id" Type="Int32" />
+    <NavigationProperty Name="Satis" Relationship="ciceksepetiModel.FK_sepet_Satis" FromRole="sepet" ToRole="Satis" />
+  </EntityType>
+  <Association Name="FK_sepet_kullanici">
+    <End Type="ciceksepetiModel.kullanici" Role="kullanici" Multiplicity="0..1" />
+    <End Type="ciceksepetiModel.sepet" Role="sepet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="kullanici">
+        <PropertyRef Name="kullanici_id" />
+      </Principal>
+      <Dependent Role="sepet">
+        <PropertyRef Name="kullanıcı_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="sepeturunliste">
+    <Key>
+      <PropertyRef Name="sul_id" />
+    </Key>
+    <Property Name="sul_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="sepet_id" Type="Int32" />
+    <Property Name="urun_id" Type="Int32" />
+    <Property Name="adet" Type="Int32" />
+    <NavigationProperty Name="sepet" Relationship="ciceksepetiModel.FK_sepeturunliste_sepet" FromRole="sepeturunliste" ToRole="sepet" />
+    <NavigationProperty Name="urunler" Relationship="ciceksepetiModel.FK_sepeturunliste_urunler" FromRole="sepeturunliste" ToRole="urunler" />
+  </EntityType>
+  <Association Name="FK_sepeturunliste_sepet">
+    <End Type="ciceksepetiModel.sepet" Role="sepet" Multiplicity="0..1" />
+    <End Type="ciceksepetiModel.sepeturunliste" Role="sepeturunliste" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="sepet">
+        <PropertyRef Name="sepet_id" />
+      </Principal>
+      <Dependent Role="sepeturunliste">
+        <PropertyRef Name="sepet_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_sepeturunliste_urunler">
+    <End Type="ciceksepetiModel.urunler" Role="urunler" Multiplicity="0..1" />
+    <End Type="ciceksepetiModel.sepeturunliste" Role="sepeturunliste" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="urunler">
+        <PropertyRef Name="urun_id" />
+      </Principal>
+      <Dependent Role="sepeturunliste">
+        <PropertyRef Name="urun_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Satis">
+    <Key>
+      <PropertyRef Name="satis_id" />
+    </Key>
+    <Property Name="satis_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="satis_adres" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="kullanici_id" Type="Int32" />
+    <Property Name="kart_hesapno" Type="Int64" />
+    <Property Name="kart_CVCkod" Type="Int32" />
+    <Property Name="kart_adsoyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="sepet" Relationship="ciceksepetiModel.FK_sepet_Satis" FromRole="Satis" ToRole="sepet" />
+  </EntityType>
+  <Association Name="FK_sepet_Satis">
+    <End Type="ciceksepetiModel.Satis" Role="Satis" Multiplicity="0..1" />
+    <End Type="ciceksepetiModel.sepet" Role="sepet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Satis">
+        <PropertyRef Name="satis_id" />
+      </Principal>
+      <Dependent Role="sepet">
+        <PropertyRef Name="satis_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

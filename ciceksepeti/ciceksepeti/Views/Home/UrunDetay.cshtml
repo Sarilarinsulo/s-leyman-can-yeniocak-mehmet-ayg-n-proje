@@ -1,0 +1,93 @@
+﻿@model ciceksepeti.Models.urunler
+
+@{
+    ViewBag.Title = "UrunDetay";
+    Layout = "~/Views/Shared/SiteLayout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-9">
+        <div class="title-bg">
+            <div class="title">@Model.urun_ad</div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="dt-img">
+                    <div class="detpricetag"><div class="inner">@Model.urun_fiyat TL</div></div>
+                    <a class="fancybox" href="#" data-fancybox-group="gallery" title="Cras neque mi, semper leon"><img src="@Model.resimler.FirstOrDefault().resim_yol" alt="" class="img-responsive"></a>
+                </div>
+
+            </div>
+            <div class="col-md-6 det-desc">
+                <div class="productdata">
+                    <div class="sharing">
+                        <div class="avatock"><span>Kategori:@Model.kategoriler.kategori_ad</span></div>
+                    </div>
+                    <div class="sharing">
+                        <div class="avatock"><span>Stok Adet:@Model.urun_stok</span></div>
+                    </div>
+                    <div class="sharing">
+                        <div class="avatock"> <input   type="number" id="qty" value="1" placeholder="adet" max="@Convert.ToInt32(Model.urun_stok)" min="0" step="1" />   </div>
+                            <div class="avatock"><input type="button" class="btn sepeteEkle" value="Sepete Ekle" />  </div>
+                        </div>
+                        
+
+                    </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="http://cdn.rawgit.com/elevateweb/elevatezoom/master/jquery.elevateZoom-3.0.8.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">document.write('<base href="' + document.location + '" />');</script>
+<link rel="stylesheet" href="style.css">
+<link href="http://www.professorcloud.com/styles/cloud-zoom.css" rel="stylesheet" type="text/css">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.js"></script>
+<script type="text/JavaScript" src="http://www.professorcloud.com/js/cloud-zoom.1.0.2.js"></script>
+<script src="~/Scripts/app.js"></script>
+
+
+
+
+<script>
+    $(function () {
+        $('.sepeteEkle').on('click', function () {
+            debugger;
+            $.ajax({
+                url: "/Sepet/SepeteEkle",
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: JSON.stringify({
+                    urun_id: "@Model.urun_id",
+
+                    adet : $("#qty").val()
+                    @*fiyat : "@Model.SatisFiyat",
+                    IndirimliFiyat: "@Model.IndirimliFiyat",
+                    adet: $("#qty").val()*@
+                }),
+                async: false
+            }).done(function (data) {
+                if (data === "true") {
+                    window.location.replace('/Sepet/SepetListe');
+                }
+                else {
+                    window.location.replace('/Checkout/AddressAndPayment');
+                }
+            });
+       });
+   });
+</script>

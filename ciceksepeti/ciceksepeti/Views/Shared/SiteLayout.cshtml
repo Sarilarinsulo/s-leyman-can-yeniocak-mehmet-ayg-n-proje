@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Çiçek Sepeti | @ViewBag.Title</title>
+
+    <!-- Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,400italic,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+
+    <link href="~/css/Home/font-awesome.css" rel="stylesheet" />
+    <link href="~/css/Home/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/Home/style.css" rel="stylesheet" />
+    <link href="~/css/Home/owl.carousel.css" rel="stylesheet" />
+    <link href="~/css/Home/owl.transitions.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div id="wrapper">
+        <div style="background-image: url('../../Images/header-bg.png');" class="header">
+            <!--Header -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-6 col-md-4 main-logo">
+                        <a href="/Home/Anasayfa"><img src="~/Images/logo.png" /></a>
+
+                    </div>
+                    <div class="col-md-8">
+                        <div class="pushright">
+                            <div class="top">
+                                @if (Session["UserID"] != null)
+                                {
+                                    <a class="btn btn-default btn-dark">Hoşgeldin @Session["UserAd"]</a>
+
+                                    if (Session["UserID"] != null)
+                                    {
+                                        @Html.ActionLink("Çıkış Yap", "UserLogout", "Home", new { model = Model }, new { @class = "btn btn-default btn-dark" })
+                                    }
+
+                                }
+                                else if (Session["UserID"] == null)
+                                {
+                                    <a href="/Home/UserLogin" class="btn btn-default btn-dark">Giriş Yap</a>
+                                    <a href="/Home/UserKayit" class="btn btn-default btn-dark">Üye Ol</a>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dashed"></div>
+        </div><!--Header -->
+        <div class="main-nav">
+            <!--end main-nav -->
+            <div class="navbar navbar-default navbar-static-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                            </div>
+                            <div class="navbar-collapse collapse">
+                                <ul class="nav navbar-nav">
+                                    <li><a href="/Home/Anasayfa" class="active">Anasayfa</a><div class="curve"></div></li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Kategoriler <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                          @{ 
+                                              Html.RenderAction("Kategoriler","Home");
+                                          }
+                                        </ul>
+                                    </li>
+                                         <li><a href="/Home/Iletisim">İletişim</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-2 machart">
+                            @{
+                                Html.RenderAction("SepetButon", "Home");
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--end main-nav -->
+
+        <div class="container">
+            @RenderBody()
+
+        </div>
+
+
+
+        <div class="footer">
+            <!--footer-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9">
+                        <ul class="footermenu">
+                            <!--footer nav-->
+                            <li><a href="index-1.htm">Home</a></li>
+                            <li><a href="cart.htm">My Cart</a></li>
+                            <li><a href="checkout.htm">Checkout</a></li>
+                            <li><a href="order.htm">Completed Orders</a></li>
+                            <li><a href="contact.htm">Contact us</a></li>
+                        </ul><!--footer nav-->
+                        <div class="f-credit">Mersin Üniversitesi &copy; @DateTime.Now.Year  Mehmet Aygün-Süleyman Can Yeniocak</div>
+                        <a><div class="payment visa"></div></a>
+                        <a><div class="payment paypal"></div></a>
+                        <a><div class="payment mc"></div></a>
+                        <a><div class="payment nh"></div></a>
+                    </div>
+                    <div class="col-md-3">
+                        <!--footer Share-->
+                        <div class="followon">Bizi Takip Edin</div>
+                        <div class="fsoc">
+                            <a href="http://twitter.com/minimalthemes" class="ftwitter">twitter</a>
+                            <a href="http://www.facebook.com/pages/Minimal-Themes/264056723661265" class="ffacebook">facebook</a>
+                            <a href="#" class="fflickr">flickr</a>
+                            <a href="#" class="ffeed">feed</a>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="~/js/Home/bootstrap.min.js"></script>
+
+        <!-- map -->
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+        <script src="~/js/Home/jquery.ui.map.js"></script>
+        <script src="~/js/Home/demo.js"></script>
+        <script src="~/js/Home/owl.carousel.min.js"></script>
+
+        <script src="~/js/Home/jquery.raty.js"></script>
+
+        <script src="~/js/Home/labs.js"></script>
+        <script src="~/js/Home/jquery.mousewheel-3.0.6.pack.js"></script>
+        <script src="~/js/Home/jquery.fancybox.js"></script>
+        <script src="~/js/Home/shop.js"></script>
+    </div>
+</body>
+</html>

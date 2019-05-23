@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ciceksepeti.Models.urunler>
+
+@{
+    ViewBag.Title = "Urunler";
+    Layout = "~/Views/Shared/adminlayout.cshtml";
+    if (Session["AdminID"] == null)
+    {
+        Response.Redirect("~/Admin/AdminLogin");
+    }
+}
+
+<h2>Ürünler Listesi</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Ürün Ad
+        </th>
+        <th>
+           Ürün Fiyat
+        </th>
+        <th>
+            Ürün Stok
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.urun_ad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.urun_fiyat)<span> TL</span>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.urun_stok)
+        </td>
+        @if (item.resimler.Count() == 0)
+        {
+            <td>
+                @Html.ActionLink("Resim Ekle", "ResimEkle", "Admin", new { urunID = item.urun_id, }, new { @class = "d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" })
+            </td>
+        }
+        else if (item.resimler.Count() != 0)
+        {
+            <td><p>Resim Var</p></td>
+            <td>
+                @Html.ActionLink("Resim Güncelle", "ResimGuncelle", "Admin", new { urunID = item.urun_id, }, new { @class = "d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" })
+            </td>
+
+        }
+
+        <td>
+            @Html.ActionLink("Ürün Sil", "UrunSil", "Admin", new { urunID = item.urun_id, }, new { @class = "d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "ResimGuncelle";
+    Layout = "~/Views/Shared/adminlayout.cshtml";
+
+    if (Session["AdminID"] == null)
+    {
+        Response.Redirect("~/Admin/AdminLogin");
+    }
+}
+
+
+
+<form action="/Admin/ResimGuncelle" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="uId" value="@Model" />
+    <input type="file" name="fileUpload" class="default" />
+    <input class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="submit" value="Güncelle" />
+</form>
+

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ciceksepeti.Models.kategoriler>
+
+@{
+    ViewBag.Title = "Kategoriler";
+    Layout = "~/Views/Shared/adminlayout.cshtml";
+    if (Session["AdminID"] == null)
+    {
+        Response.Redirect("~/Admin/AdminLogin");
+    }
+}
+
+
+<h2>Kategoriler</h2>
+
+<p style="color:red;">@Session["kategorihata"]</p>
+
+<table class="table">
+    <tr>
+        <th>
+            Kategori Ad
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.kategori_ad)
+            </td>
+            <td>@Html.ActionLink("Kategori Sil", "KategoriSil", "Admin", new { kategoriID = item.kategori_id }, new { @class = "d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" })</td>
+        </tr>
+    }
+
+</table>

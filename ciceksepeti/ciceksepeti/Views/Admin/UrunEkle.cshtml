@@ -1,0 +1,63 @@
+﻿@model ciceksepeti.Models.urunler
+
+@{
+    ViewBag.Title = "UrunEkle";
+    Layout = "~/Views/Shared/adminlayout.cshtml";
+    if (Session["AdminID"] == null)
+    {
+        Response.Redirect("~/Admin/AdminLogin");
+    }
+}
+
+<h2>Ürün Ekle</h2>
+
+@using (Html.BeginForm()) 
+{
+    
+<div class="form-horizontal">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+
+        <div class="col-md-10">
+            Ürün Ad
+            @Html.EditorFor(model => model.urun_ad, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.urun_ad, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+
+        <div class="col-md-10">
+            Ürün Fiyat
+            @Html.EditorFor(model => model.urun_fiyat, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.urun_fiyat, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+
+        <div class="col-md-10">
+            Ürün Stok
+            @Html.EditorFor(model => model.urun_stok, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.urun_stok, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <select name="kategori_id">
+                @foreach (var kategori in ViewBag.Kategoriler)
+                {
+                    <option value="@kategori.kategori_id">@kategori.kategori_ad</option>
+                }
+            </select>
+        </div>
+    </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Kaydet" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" />
+            </div>
+        </div>
+    </div>
+    }
+

@@ -1,0 +1,16 @@
+﻿@model ciceksepeti.Models.sepet
+
+@{
+    Layout = null;
+}
+
+@if (Session["totalcount"] != null)
+{
+    <button id="popcart" onclick="location.href='/Sepet/SepetListe'" class="btn btn-default btn-chart btn-sm "><span class="mychart">Sepet</span>|<span class="allprice">@Session["sum"] TL</span></button>
+
+}
+else
+{
+    <button id="popcart" class="btn btn-default btn-chart btn-sm "><span class="mychart">Sepet</span>|<span class="allprice">@Session["sum"] TL</span></button>
+
+}

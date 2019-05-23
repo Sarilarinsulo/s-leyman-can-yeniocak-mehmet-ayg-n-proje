@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ciceksepeti.Models.sepeturunliste>
+
+@{
+    ViewBag.Title = "SepetListe";
+    Layout = "~/Views/Shared/SiteLayout.cshtml";
+}
+@{ 
+    int sum = 0;
+    Session["sum"] = sum;
+
+    int totalcount = 0;
+    Session["totalcount"] = totalcount;
+
+}
+
+<h2>Sepet</h2>
+
+<table class="table">
+    <tr>
+        <th>Ürün Ad</th>
+        <th>Ürün Adet</th>
+        <th>Ürün Fiyat</th>
+
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.urunler.urun_ad
+
+        </td>
+        <td>
+            @item.adet
+        </td>
+        <td>
+            @item.urunler.urun_fiyat
+
+        </td>
+        <td>
+        @*<td><button class="btn btn-danger" onclick="location.href='@Url.Action("SepetUrunSil", "Sepet",item)'"  type="button"><i class="icon-remove icon-white"></i></button></td></td>*@
+    </tr>
+}
+
+</table>
+<div>
+    @foreach (var item in Model)
+    {
+        Session["sum"] = (Convert.ToInt32(item.urunler.urun_fiyat) * item.adet + Convert.ToInt32(Session["sum"]));
+    }
+
+    Toplam Fiyat:@Session["sum"] TL
+</div>
+    <div>
+
+        @if (Session["UserID"] == null)
+        {
+            <a href="/Home/UserLogin" class="btn btn-large pull-right">Giriş Yap</a>
+        }
+        else
+        {
+            @Html.ActionLink("Satın Al", "Satis", "Sepet",
+        new { model = Model },
+        new { @class = "btn btn-info pull-right" })
+        }
+    </div>
